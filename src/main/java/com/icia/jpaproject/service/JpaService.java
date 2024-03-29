@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +79,29 @@ public class JpaService {
                     jpaDtoList = new ArrayList<>();
                     jpaDtoList.add(jpaDto);
                 }
+                break;
+            case "num":
+                jpaEntity = jRepo.findByIntData(Integer.parseInt(keyword));
+                if(jpaEntity != null){
+                    jpaDto = mapper.map(jpaEntity,JpaDto.class);
+                    jpaDtoList = new ArrayList<>();
+                    jpaDtoList.add(jpaDto);
+                }
+                break;
+            case "str":
+                jpaEntityList = jRepo.findByStrDataContains(keyword);
+                jpaDtoList = mapper.map(jpaEntityList,
+                        new TypeToken<List<JpaDto>>(){}.getType());
+                break;
+            case "date":
+                //날짜/시간 형식 : 2024-01-01T09:50
+                //DB검색용 날짜 형식 : 2024-01-01 09:50:00
+                keyword = keyword.replace("T", " ") + ":00";
+                //날짜 문자열 -> Timestamp로 변환
+                Timestamp t = Timestamp.valueOf(keyword);
+                jpaEntityList = jRepo.selectDateBefore(t);
+                jpaDtoList = mapper.map(jpaEntityList,
+                        new TypeToken<List<JpaDto>>(){}.getType());
                 break;
         }
         model.addAttribute("jdList",jpaDtoList);

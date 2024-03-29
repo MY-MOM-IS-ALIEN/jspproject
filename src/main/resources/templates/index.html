@@ -59,6 +59,18 @@
                 <input type="number" id="inNo">
                 <button id="nobtn">번호검색</button>
             </div>
+            <div>
+                <input type="number" id="inNum">
+                <button id="numbtn">숫자검색</button>
+            </div>
+            <div>
+                <input type="text" id="inStr">
+                <button id="strbtn">문자열검색</button>
+            </div>
+            <div>
+                <input type="datetime-local" id="inDate">
+                <button id="datebtn">날짜검색</button>
+            </div>
         </div>
     </div>
 </body>
@@ -68,9 +80,25 @@
         alert(msg);
     }
 
-    $(#"nobtn").click(function ()){
+    $("#nobtn").click(function (){
         let no = $("#inNo").val();
         location.href="search?type=no&keyword="+no;
-    }
+    });
+
+    $("#numbtn").click(function (){
+       let num = $("#inNum").val();
+        location.href="search?type=num&keyword="+num;
+    });
+
+    $("#strbtn").click(function (){
+       let str = $("#inStr").val();
+        location.href="search?type=str&keyword="+str;
+    });
+
+    $("#datebtn").click(function (){
+        let date = $("#inDate").val();
+        console.log(date);
+        location.href="search?type=date&keyword="+date;
+    });
 </script>
 </html>
